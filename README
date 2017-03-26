@@ -1,0 +1,81 @@
+Universal Turing Machine 0.0.2_25-03-2017 [unreleased]
+----------------------------------------------------
+
+This project exists as an example of my pointless life wasting. I had to do something while learning rust, so that's why code looks messy and incomplete.  
+
+[!!] This project doesn't not work for now. Uploaded it here because that is mere a draft and I can't stand this project anymore. I'll fix it when I beat my boredom, find a spare time and prevent rust thread panics at every line of that code. 
+
+Philosophy
+==========
+Almost every todays' leet programmer thinks that the more 'features' programming language have, than more this language can do. 
+They suffer from the lack of the basic computer science knowledge and they cannot understand how things like Turing completness affect to the real world of computer programming. 
+They actually don't know what Turing completness is and with little bewilderment inside their eyes they doesn't care about it at all.
+
+
+A brief explanation
+===================
+Turing machine is a mathematical model of computation that defines a device which is given any computer algorithm and it's can be constructed that is capable of simulating that algorithm's logic.
+Universal Turing machine is a Turing machine that can simulate an arbitrary Turing machine on arbitrary input.
+
+
+Installation (pointless for now)
+================================
+
+Building
+--------
+
+    $ git clone https://github.com/awkure/utm.git
+    $ make 
+
+
+Running
+-------
+Before running your machine you should put your programs inside data/ directory with .utm file extension.
+
+And then:
+    
+    $ make run
+
+
+Project Structure
+=================
+
+    * data/
+
+The data directory where you should put your machines inside.
+
+
+    * data/output
+
+Where the machine stores its output.
+
+
+    * examples/
+
+Examples of the simple utm programs. Run with `utm --examples` 
+
+    
+    * src/
+
+The source code of the project.
+
+
+    * test/
+
+Tests folder which consists tests of the machine. 
+Use it by typing `make test` inside your command prompt.
+
+
+ Todo
+|====
+| - make it work
+| - custom allocator
+| + little concurrency
+| - benchmarks
+| ? more continously refactoring
+| - no_std
+| - improve the parser
+
+
+As my post scriptum I'll leave here my last part of excitement.
+After all we're all alike.

@@ -1,0 +1,10 @@
+0
+
+a 0
+
+a 0 1 right b
+a 1 1 left  c
+b 0 1 left  a
+b 1 1 right b
+c 0 1 left  b
+c 1 1 stay halt
