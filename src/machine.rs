@@ -60,7 +60,8 @@ pub struct Preferences {
 /// return          Result<Vec<String>>
 pub fn prepare_dataset(datadir: &str) -> io::Result<Vec<String>> {
     /// Oh god 
-    /*let pwd_output = Command::new("pwd")
+    /*
+     let pwd_output = Command::new("pwd")
         .output().unwrap_or_else(|e| {
             panic!("failed to run \'pwd\': {}", e)
         });
@@ -83,9 +84,9 @@ pub fn prepare_dataset(datadir: &str) -> io::Result<Vec<String>> {
                  .filter(|ref s| !s.is_empty())
                                    .collect::<Vec<_>>())
                  .collect::<Vec<_>>();
-    }*/
+    }
     
-    /*let ls = Command::new("ls")
+    let ls = Command::new("ls")
         .arg(&format!("-p \'{}\'", datapath))
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
@@ -110,13 +111,13 @@ pub fn prepare_dataset(datadir: &str) -> io::Result<Vec<String>> {
     match files_process.stdout.unwrap().read_to_string(&mut s) {
         Err(why) => panic!("could not read ls -p stdout: {:?}", why),
         Ok(_) => println!("[?] files_output: {:?}", s),
-    }*/
+    }
+    */
 
     let datapath = format!("{}/{}/", ::std::env::current_dir()?.display(), datadir);
     println!("[?] datapath: {}", datapath);
     stdout().flush().unwrap();
 
-    /// lifetimes
     /*
       let names = std::fs::read_dir(datapath)
         .unwrap()
@@ -196,7 +197,6 @@ pub fn compute(machine: TuringMachine) -> String {
     while let Ok(tape) = Arc::try_unwrap(machine.tape) {
 
         let mut tape = tape.into_inner().ok().unwrap();
-        let mut tape = tape.into_inner(); 
             {
                 let mut local_tape = tape.clone();
 
@@ -207,12 +207,6 @@ pub fn compute(machine: TuringMachine) -> String {
 
                 let iter = tape.clone().into_iter(); 
                 
-                let mut   position = Arc::try_unwrap(machine.position)
-                    .ok()
-                    .unwrap()
-                    .into_inner()
-                    .unwrap();
-
                 for element in iter.clone() {
                         print!("{} ", element);
                 }
@@ -230,9 +224,6 @@ pub fn compute(machine: TuringMachine) -> String {
                      "right" => tape.move_right(),
                            _ => { },
                 }
-                    tape = local_tape.clone();
-                    tape = local_tape.clone();
-                
             }
         
         println!();
@@ -251,22 +242,21 @@ pub fn compute(machine: TuringMachine) -> String {
 ///
 /// return      ()
 pub fn run(opts: Preferences) {
-    println!("[\x1B[1;32m+\x1B[0m] Machine is: \x1B[1;32mLoaded\x1B[0m");
+    let plus = if opts.colorize { "\n\n\n[\x1B[1;32m+\x1B[0m]"     } else { "\n\n\n[+]" };
+    let astx = if opts.colorize {   "\n[\x1B[1;33m*\x1B[0m]"       } else {   "\n[*]"   };
+    let qstn = if opts.colorize {    "[\x1B[1;33m?\x1B[0m]"        } else {    "[?]"    };
+    let slct = if opts.colorize {         " \x1B[2m"               } else {    "   "    };
+    let asym = if opts.colorize {  "\n\n[\x1B[1;33m@\x1B[0m]"      } else {  "\n\n[@]"  };
+    let grnc = if opts.colorize {        "\x1B[1;32m"              } else {     " "     };
+
+    println!("{} Machine is: {}Loaded\x1B[0m", &plus, &grnc);
 
     let (tx, rx): (Sender<String>, 
                  Receiver<String>) = mpsc::channel();
     
     let dataset: Vec<String> = prepare_dataset(&opts.datadir)
         .map_err(|err| err.to_string()).unwrap();
-        //.and_then(|data| data);
 
-    /*
-    let dataset: Vec<String> = match prepare_dataset() { 
-        Ok(data) => data,
-        Err(_) => { panic!("can't read dataset"); },
-    };
-    */
-    
     {
         println!("[?]  dataset: {}", dataset[0]);
         for datafile in &dataset[1..] {
@@ -275,7 +265,6 @@ pub fn run(opts: Preferences) {
         }
     }
 
-    //let dataset_length = dataset.len();
     let mut processed: Vec<File> = Vec::with_capacity(dataset.len());
 
     for datafile in &dataset {
@@ -315,8 +304,8 @@ pub fn run(opts: Preferences) {
         /// Make a thread for a specific file and compute data inside it
         thread::Builder::new().name((&thread_name).to_string()).spawn(move || {
             {
-                println!("\n\n\n[\x1B[1;32m+\x1B[0m] Thread started for \x1B[2m{}\x1B[0m", &thread_name);
-                println!("\n[\x1B[1;33m*\x1B[0m] Given data:");
+                println!("{} Thread started for {}{}\x1B[0m", &plus, &slct, &thread_name);
+                println!("{} Given data:", &astx);
           
                 for line in content.lines() { println!("[-]\t{}", line) }
             }
@@ -326,13 +315,13 @@ pub fn run(opts: Preferences) {
                 .collect(); 
             
             {
-                println!("\n[\x1B[1;33m*\x1B[0m] Parsed rules:");
+                println!("{} Parsed rules:", &astx);
                 println!("[t]\t{}", &rules[0]);
                 println!("[s]\t{}", &rules[1]);
 
                 for rule in &rules[2..] { println!("[r]\t{}", rule); }
             
-                println!("[\x1B[1;33m?\x1B[0m] t − tape | s − state blank | r − rule");
+                println!("{} t − tape | s − state blank | r − rule", &qstn);
             }
 
             /// TODO: unwrap
@@ -384,7 +373,6 @@ pub fn run(opts: Preferences) {
             };
 
             let result_data: &str = &compute(machine);
-            //let result_data: &str = "carpe diem";
 
             thread::sleep(::std::time::Duration::from_millis(63)); // looks pretty dynamic 
             ttx.send(result_data.to_string()).unwrap();
@@ -402,9 +390,8 @@ pub fn run(opts: Preferences) {
                                                  .display(), 
                                       opts.datadir.to_string(),
                                       &filename);
-            //let path = Path::new(bump); 
-            if let Ok(data) = rx.recv() {
 
+            if let Ok(data) = rx.recv() {
                 /*
                 File::create(&output_path)
                      .map_err(|err| err.to_string())
@@ -427,6 +414,6 @@ pub fn run(opts: Preferences) {
         }        
     }
 
-    println!("\n\n[\x1B[1;33m@\x1B[0m] Processed files:");
+    println!("{} Processed files:", &asym);
     for test in &processed { println!("[-] {:?}", test); }
 }

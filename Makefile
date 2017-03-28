@@ -1,13 +1,13 @@
-CARGO  		  ?= cargo 	   #~/.cargo/bin/cargo 	
-TARGET 		  := ./target
+		CARGO ?= cargo 	   #~/.cargo/bin/cargo 	
+	   TARGET := ./target
 .DEFAULT_GOAL := all
 
 help:
-	@echo 'make		    '
-	@echo '     all		'
-	@echo '     run		'
-	@echo '     tidy	'
-	@echo '		test	'
+	@echo 'make         '
+	@echo '     all     '
+	@echo '     run     '
+	@echo '     tidy    '
+	@echo '	    test    '
 	@echo '     install '
 	@echo '     release '
 
@@ -24,7 +24,7 @@ release:
 
 run: release
 	@printf '\n[\x1B[1;32m*\x1B[0m] Running...'
-	@$(CARGO) run --all-features -q
+	@$(TARGET)/release/utm
 
 test: 
 	@printf '\n[\x1B[1;32m*\x1B[0m] Testing...'

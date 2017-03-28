@@ -19,9 +19,7 @@ use std::io::{
 
 use std::env::args;
 
-//type Result<T> = std::result::Result<T, Box<error::Error + 'static>>;
 
-/// My harmful preferences
 #[macro_export]
 macro_rules! println {
     
@@ -48,12 +46,12 @@ fn usage() {
     let name: String = args().nth(0).unwrap_or("utm".into());
     {
         println!("{:?} Universal Turing Machine [{}]", 
-                 name, option_env!("CARGO_PKG_VERSION").unwrap_or("unknown"));
-        println!("-h, {: <14} show this message",                         "--help");
-        println!("-v, {: <14} show this project version",                 "--version");
-        println!("-e, {: <14} compute files inside `examples` directory", "--examples");
-        println!("-d, {: <14} force to print more debug output{: >16}",   "--debug", "[DUMMY]");  
-        println!("-c, {: <14} pretty colorize the output\t   {: >16}",    "--color", "[DUMMY]");
+                 name, option_env!("CARGO_PKG_VERSION").unwrap_or("unknown")                   );
+        println!("-h, {: <14} show this message",                         "--help"             );
+        println!("-v, {: <14} show this project version",                 "--version"          );
+        println!("-e, {: <14} compute files inside `examples` directory", "--examples"         );
+        println!("-c, {: <14} pretty colorize the output",                "--color"            );
+        println!("-d, {: <14} force to print more debug output{: >16}",   "--debug", "[DUMMY]" );  
     }
 }
 
@@ -61,7 +59,7 @@ fn usage() {
 fn main() {
     let mut opts = Preferences {
          datadir: String::from("data"),
-        colorize: true
+        colorize: false
     };
 
     let mut iterator = args().skip(1).peekable();
@@ -82,8 +80,7 @@ fn main() {
         }
 
         if arg == "-c" || arg == "--colorize" {
-            println!("Later");
-            return
+            opts.colorize = true;
         }
 
         if arg == "-d" || arg == "--debug" {

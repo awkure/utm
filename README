@@ -1,9 +1,9 @@
-Universal Turing Machine 0.0.2_25-03-2017 [unreleased]
+Universal Turing Machine 0.0.3_27-03-2017 [unreleased]
 ----------------------------------------------------
 
-This project exists as an example of my pointless life wasting. I had to do something while learning rust, so that's why code looks messy and incomplete.  
+This project exists as an example of my pointless time wasting. I had to do something while learning rust, so that's why code looks messy and incomplete.  
 
-[!!] This project doesn't not work for now. Uploaded it here because that is mere a draft and I can't stand this project anymore. I'll fix it when I beat my boredom, find a spare time and prevent rust thread panics at every line of that code. 
+[!!] This project doesn't work for now. Uploaded it here because that is mere a draft and I can't stand this project anymore. I'll fix it when I beat my boredom, find a spare time and prevent rust thread panics at every line of that code. 
 
 Philosophy
 ==========
@@ -18,8 +18,8 @@ Turing machine is a mathematical model of computation that defines a device whic
 Universal Turing machine is a Turing machine that can simulate an arbitrary Turing machine on arbitrary input.
 
 
-Installation (pointless for now)
-================================
+Installation 
+============
 
 Building
 --------
@@ -35,6 +35,10 @@ Before running your machine you should put your programs inside data/ directory 
 And then:
     
     $ make run
+
+Or:
+
+    $ target/release/utm
 
 
 Project Structure
@@ -52,18 +56,18 @@ Where the machine stores its output.
 
     * examples/
 
-Examples of the simple utm programs. Run with `utm --examples` 
+Examples of the simple utm programs. Run with `$ target/release/utm --examples` 
 
     
     * src/
 
-The source code of the project.
+The source code of this project.
 
 
     * test/
 
 Tests folder which consists tests of the machine. 
-Use it by typing `make test` inside your command prompt.
+Use it by typing `$ make test` inside your command prompt.
 
 
  Todo
@@ -74,7 +78,6 @@ Use it by typing `make test` inside your command prompt.
 | - benchmarks
 | ? more continously refactoring
 | - no_std
-| - improve the parser
 
 
 As my post scriptum I'll leave here my last part of excitement.

@@ -1,6 +1,6 @@
 [package]
 name    = "utm"
-version = "0.0.2"
+version = "0.0.3"
 authors = ["adam <awkure@protonmail.ch>"]
 
 [dependencies]
